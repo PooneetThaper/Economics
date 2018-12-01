@@ -44,7 +44,7 @@ function draw() {
   text("Supply", 5.2 * axisMargin, axisMargin + 10)
   text("Supply Slope", 5.2 * axisMargin, 2 * axisMargin + 10)
   text("Demand", 5.2 * axisMargin, 3 * axisMargin + 10)
-  text("Supply Slope", 5.2 * axisMargin, 4 * axisMargin + 10)
+  text("Demand Slope", 5.2 * axisMargin, 4 * axisMargin + 10)
 
   text("Quantity", width - 1.5 * axisMargin, height - 0.4 * axisMargin)
   text("Price", 0.1 * axisMargin, axisMargin)
