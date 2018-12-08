@@ -59,29 +59,44 @@ function draw() {
   // Draw supply line
   stroke(0, 255, 0)
   supplyLine.slope = supplySlope
-  line(0, xAxisY - (scale * supplyLine.getY(0 - graph_margin)) - supplyOffset, width, xAxisY - (scale * supplyLine.getY(graph_width - graph_margin)) - supplyOffset)
+  supplyLine.offset = supplyOffset
+  line(0, xAxisY - (scale * supplyLine.getY(0 - graph_margin)), width, xAxisY - (scale * supplyLine.getY(graph_width - graph_margin)))
 
   // Draw demand line
   stroke(255, 0, 0)
   demandLine.slope = demandSlope
-  line(0, xAxisY - (scale * demandLine.getY(0 - graph_margin)) - demandOffset, width, xAxisY - (scale * demandLine.getY(graph_width - graph_margin)) - demandOffset)
+  demandLine.offset = demandOffset
+  line(0, xAxisY - (scale * demandLine.getY(0 - graph_margin)), width, xAxisY - (scale * demandLine.getY(graph_width - graph_margin)))
+
+  var intersection_x = axisMargin + (scale * demandLine.intersect(supplyLine))
+  var intersection_y = xAxisY - (scale * demandLine.getY(demandLine.intersect(supplyLine)))
+
+  stroke(100, 100, 100)
+  line(intersection_x, xAxisY, intersection_x, intersection_y)
+  line(axisMargin, intersection_y, intersection_x, intersection_y)
+  ellipse(intersection_x, intersection_y, 20, 20)
 }
 
 class Line {
   constructor(slope, intercept){
     this.slope = slope
     this.intercept = intercept
+    this.offset = 0
   }
 
   // Precondition: given another Line object
   // Postcondition: returns the x coordinate of the intersection of this and the otherLine object
   intersect (otherLine) {
-    return (this.intercept - otherLine.intercept) / (otherLine.slope - this.slope)
+    return ((this.intercept + this.offset) - (otherLine.intercept + otherLine.offset)) / (otherLine.slope - this.slope)
+  }
+
+  offset (amount) {
+    this.offset = amount
   }
 
   // Postcondition: the y value of the line at a given x value
   getY (X) {
-    return (this.slope * X) + this.intercept
+    return ((this.slope * X) + this.intercept) + this.offset
   }
 
   // Postcondition: changes the slope this line
